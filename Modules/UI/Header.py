@@ -14,3 +14,4 @@ def show_header(text_title: str):
     st.title(text_title)
     st.caption(" Developed for: *Business Intelligence (Graduate Level)*")
     st.acption("Instructor Edgar Avalos-Gauna (2025), Universidad Panamericana")
+
