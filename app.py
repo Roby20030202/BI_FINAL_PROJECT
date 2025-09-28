@@ -157,3 +157,19 @@ if len(df_filtrado_final) > 0:
     st.plotly_chart(fig_sunburst, use_container_width=True)
 else:
     st.warning("No hay datos para mostrar el Sunburst con los filtros actuales.")
+
+# =========================================================
+# === 6. VISTA DE TABLA DE DATOS FILTRADOS ===
+# =========================================================
+
+st.markdown("---")
+st.subheader("Tabla de Registros Filtrados")
+
+if len(df_filtrado_final) > 0:
+    # Seleccionamos solo las columnas clave para una mejor visualización en la tabla
+    columnas_tabla = ['address', 'city', 'stars', 'review_count'] + categorias_seleccionadas
+    
+    # Mostramos el DataFrame filtrado como una tabla interactiva
+    st.dataframe(df_filtrado_final[columnas_tabla])
+else:
+    st.info("No hay registros para mostrar en la tabla con los criterios de filtro seleccionados.")
