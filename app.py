@@ -51,28 +51,52 @@ df = df[coffee_columns + ['address','city','state','latitude','longitude','stars
 condition = (df[coffee_columns] == 1).any(axis=1)
 df = df[condition]
 
+st.sidebar.title("Opciones de Filtrado")
+
+# WIDGET 1: Filtro por Tipo de Establecimiento (Selectbox)
+categoria_seleccionada = st.sidebar.selectbox(
+    '1. Selecciona el Tipo de Establecimiento:',
+    options=COFFEE_COLUMNS, 
+    index=0  # 'Coffee & Tea' por defecto
+)
+
+# WIDGET 2: Filtro por Estrellas (Slider)
+min_stars = st.sidebar.slider(
+    '2. Calificación Mínima de Estrellas (stars):',
+    min_value=1.0, 
+    max_value=5.0, 
+    value=3.5, # Valor por defecto
+    step=0.5  
+)
+
+# PASO A: Filtrar por Categoría seleccionada (Solo negocios donde la columna es 1)
+df_categoria = df[df[categoria_seleccionada] == 1].copy()
+
+# PASO B: Filtrar el resultado anterior por la Calificación Mínima
+df_filtrado_final = df_categoria[df_categoria['stars'] >= min_stars].copy()
+
+
+st.subheader(f"Mapa de {categoria_seleccionada}")
+st.write(f"Mostrando **{len(df_filtrado_final)}** negocios con **{min_stars}** estrellas o más.")
 
 map_center = {"lat": 40.0, "lon": -74.5}
 
-# Crear el mapa interactivo (Plotly hace la agrupación de densidad automáticamente
-# si el número de puntos es grande)
 fig = px.scatter_mapbox(
-    df, # Usamos el DataFrame filtrado
+    df_filtrado_final, # <-- ¡CLAVE! Usar el DataFrame DOBLEMENTE FILTRADO
     lat="latitude",
     lon="longitude",
-    color="stars", # Podemos usar las estrellas para dar color o agrupar
-    hover_name="address",
-    zoom=7, # Nivel de zoom de NJ
+    color="stars", # Colorea los puntos según las estrellas
+    hover_data=['address', 'city', 'stars', 'review_count'], # Muestra estos datos al pasar el mouse
+    zoom=7, 
     height=600,
-    mapbox_style="carto-positron", # Un estilo de mapa limpio
-    title="Mapa de Densidad de Negocios en NJ"
+    mapbox_style="carto-positron", 
+    title=f"Ubicación de {categoria_seleccionada} en NJ ({min_stars}+ estrellas)"
 )
 
-# Ajustar marcadores para mostrar la densidad visualmente
-fig.update_traces(marker=dict(size=8, opacity=0.8), 
-                  selector=dict(mode='markers'))
+# Ajustes de marcadores y layout
+fig.update_traces(marker=dict(size=8, opacity=0.8), selector=dict(mode='markers'))
+fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
 
 # Mostrar el mapa en Streamlit
-st.plotly_chart(fig, use_container_width=True) 
-
+st.plotly_chart(fig, use_container_width=True)
 
