@@ -9,7 +9,7 @@ from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
 
 # Seción para crear la GUI
-show_header("Mi primera GUI en Streamlit")
+show_header("Análisis de Negocios NJ")
 
 url = 'https://raw.githubusercontent.com/Roby20030202/BI_FINAL_PROJECT/refs/heads/main/filtered_yelp_NJ.csv'
 url_mapa = "https://raw.githubusercontent.com/edavgaun/topojson/080eb96a46307efd0c4a31f4c11ccabeee5e97dd/countries/us-states/NJ-34-new-jersey-counties.json"
