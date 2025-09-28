@@ -163,13 +163,19 @@ else:
 # =========================================================
 
 st.markdown("---")
-st.subheader("Tabla de Registros Filtrados")
+st.subheader("Tabla de Registros Filtrados (Ordenados por Revisiones)")
 
 if len(df_filtrado_final) > 0:
+    # Creamos una copia para ordenar y la ordenamos de mayor a menor (ascending=False)
+    df_tabla_ordenada = df_filtrado_final.sort_values(
+        by='review_count', 
+        ascending=False
+    )
+    
     # Seleccionamos solo las columnas clave para una mejor visualización en la tabla
     columnas_tabla = ['address', 'city', 'stars', 'review_count'] + categorias_seleccionadas
     
-    # Mostramos el DataFrame filtrado como una tabla interactiva
-    st.dataframe(df_filtrado_final[columnas_tabla])
+    # Mostramos el DataFrame ordenado como una tabla interactiva
+    st.dataframe(df_tabla_ordenada[columnas_tabla])
 else:
     st.info("No hay registros para mostrar en la tabla con los criterios de filtro seleccionados.")
