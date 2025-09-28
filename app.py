@@ -56,7 +56,7 @@ st.sidebar.title("Opciones de Filtrado")
 # WIDGET 1: Filtro por Tipo de Establecimiento (Selectbox)
 categoria_seleccionada = st.sidebar.selectbox(
     '1. Selecciona el Tipo de Establecimiento:',
-    options=COFFEE_COLUMNS, 
+    options=coffee_columns, 
     index=0  # 'Coffee & Tea' por defecto
 )
 
