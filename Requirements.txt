@@ -1,7 +1,9 @@
 pandas
-geopandas
 streamlit
 matplotlib
-seaborn 
+seaborn
 plotly
-
+shapely
+pyproj
+fiona
+geopandas
