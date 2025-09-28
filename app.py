@@ -136,6 +136,5 @@ fig_sunburst = px.sunburst(
 # Mostrar la gráfica Sunburst en Streamlit
 st.plotly_chart(fig_sunburst, use_container_width=True)
 
-st.plotly_chart(fig_sunburst, use_container_width=True)
 
 
