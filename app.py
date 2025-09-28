@@ -100,6 +100,11 @@ fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
 # Mostrar el mapa en Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
+df_sunburst['Stars_Group'] = df_sunburst['stars'].apply(
+    lambda x: f"{int(x)} Estrellas" if x.is_integer() else f"{x} Estrellas"
+)
+
+
 fig_sunburst = px.sunburst(
     df_sunburst,
     # Path define la jerarquía: de Categoría a Grupo de Estrellas
