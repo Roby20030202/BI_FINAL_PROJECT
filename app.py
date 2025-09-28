@@ -102,7 +102,6 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 # === . GRÁFICA SUNBURST (Distribución Jerárquica) ===
-
 st.markdown("---") 
 st.subheader("Distribución de Negocios por Tipo y Calificación")
 
@@ -110,13 +109,17 @@ st.subheader("Distribución de Negocios por Tipo y Calificación")
 # Esto crea una fila para CADA categoría a la que pertenece un negocio.
 df_melted = df_filtrado_final.melt(
     id_vars=['stars'], 
-    value_vars=coffee_columns, 
+    value_vars=COFFEE_COLUMNS, 
     var_name='Category_Name', # Nuevo nombre para la columna que contendrá el nombre de la categoría
     value_name='Is_Member'
 )
 
 # Filtrar para obtener solo las asignaciones donde el negocio es miembro (valor == 1)
 df_sunburst = df_melted[df_melted['Is_Member'] == 1].copy()
+
+# Creamos una columna 'Count' simple para el recuento. Esto es opcional,
+# ya que Plotly cuenta por defecto si no se pasa 'values'.
+df_sunburst['Count'] = 1 
 
 # Crear la columna de agrupamiento de estrellas (para la jerarquía)
 df_sunburst['Stars_Group'] = df_sunburst['stars'].apply(
@@ -126,8 +129,10 @@ df_sunburst['Stars_Group'] = df_sunburst['stars'].apply(
 # Generación de la Gráfica Sunburst
 fig_sunburst = px.sunburst(
     df_sunburst,
-    # Path define la jerarquía: de Categoría a Grupo de Estrellas
+    # La jerarquía va de Categoría a Grupo de Estrellas
     path=['Category_Name', 'Stars_Group'], 
+    # Usamos 'Count' para que el tamaño se base en la cantidad de registros
+    values='Count', 
     color='Stars_Group', 
     hover_data=['stars'],
     title="Jerarquía de Categorías con Calificación Mínima Aplicada"
@@ -135,6 +140,3 @@ fig_sunburst = px.sunburst(
 
 # Mostrar la gráfica Sunburst en Streamlit
 st.plotly_chart(fig_sunburst, use_container_width=True)
-
-
-
