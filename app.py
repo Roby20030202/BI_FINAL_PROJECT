@@ -100,11 +100,30 @@ fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
 # Mostrar el mapa en Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
+
+# === . GRÁFICA SUNBURST (Distribución Jerárquica) ===
+
+st.markdown("---") 
+st.subheader("Distribución de Negocios por Tipo y Calificación")
+
+# Preparación para Sunburst: Derretir (melt) el DataFrame filtrado
+# Esto crea una fila para CADA categoría a la que pertenece un negocio.
+df_melted = df_filtrado_final.melt(
+    id_vars=['stars'], 
+    value_vars=COFFEE_COLUMNS, 
+    var_name='Category_Name', # Nuevo nombre para la columna que contendrá el nombre de la categoría
+    value_name='Is_Member'
+)
+
+# Filtrar para obtener solo las asignaciones donde el negocio es miembro (valor == 1)
+df_sunburst = df_melted[df_melted['Is_Member'] == 1].copy()
+
+# Crear la columna de agrupamiento de estrellas (para la jerarquía)
 df_sunburst['Stars_Group'] = df_sunburst['stars'].apply(
     lambda x: f"{int(x)} Estrellas" if x.is_integer() else f"{x} Estrellas"
 )
 
-
+# Generación de la Gráfica Sunburst
 fig_sunburst = px.sunburst(
     df_sunburst,
     # Path define la jerarquía: de Categoría a Grupo de Estrellas
@@ -115,6 +134,8 @@ fig_sunburst = px.sunburst(
 )
 
 # Mostrar la gráfica Sunburst en Streamlit
+st.plotly_chart(fig_sunburst, use_container_width=True)
+
 st.plotly_chart(fig_sunburst, use_container_width=True)
 
 
