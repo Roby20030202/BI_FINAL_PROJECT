@@ -2,9 +2,6 @@
 pandas
 streamlit
 matplotlib
-seaborn
-plotly
-# Versiones conocidas estables para entornos de despliegue
 pyproj==3.4.1
 fiona==1.8.21
 shapely==2.0.1
