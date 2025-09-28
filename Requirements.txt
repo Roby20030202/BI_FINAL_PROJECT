@@ -5,4 +5,4 @@ matplotlib
 pyproj==3.4.1
 fiona==1.8.21
 shapely==2.0.1
-geopandas==0.13.2
+plotly-express
