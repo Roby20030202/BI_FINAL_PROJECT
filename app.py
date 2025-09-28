@@ -1,12 +1,11 @@
 # Sección de importación de módulos
-
-from Modules.UI.Header import show_header
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import streamlit as st
+from Modules.UI.Header import show_header
 from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
 
