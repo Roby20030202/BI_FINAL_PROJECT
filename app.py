@@ -6,6 +6,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import streamlit as st
 from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
 
@@ -114,5 +115,6 @@ for idx, row in nj.iterrows():
 axs.axis("off")
 axs.set_title("Coffee & Tea Shops in NJ", fontsize=18, weight="bold")
 plt.tight_layout()
-plt.show()
+st.pyplot(fig)
+
 
