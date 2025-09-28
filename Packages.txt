@@ -1,4 +1,7 @@
 # packages.txt
+# Dependencias necesarias para GeoPandas y sus bases (GDAL, GEOS, PROJ)
 libgdal-dev
 libproj-dev
 libgeos-dev
+gdal-bin
+proj-bin
