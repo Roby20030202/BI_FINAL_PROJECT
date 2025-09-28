@@ -109,7 +109,7 @@ st.subheader("Distribución de Negocios por Tipo y Calificación")
 # Esto crea una fila para CADA categoría a la que pertenece un negocio.
 df_melted = df_filtrado_final.melt(
     id_vars=['stars'], 
-    value_vars=COFFEE_COLUMNS, 
+    value_vars=coffee_columns, 
     var_name='Category_Name', # Nuevo nombre para la columna que contendrá el nombre de la categoría
     value_name='Is_Member'
 )
