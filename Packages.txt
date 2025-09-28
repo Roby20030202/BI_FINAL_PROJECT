@@ -1,6 +1,0 @@
-# packages.txt
-libgdal-dev
-libproj-dev
-libgeos-dev
-gdal-bin
-proj-bin
