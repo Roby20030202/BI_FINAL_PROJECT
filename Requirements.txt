@@ -1,5 +1,6 @@
-# requirements.txt limpio y esencial
-pandas
 streamlit
+pandas
 matplotlib
-plotly-express
+seaborn
+plotly
+scipy
