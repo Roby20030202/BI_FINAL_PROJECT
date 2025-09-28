@@ -1,6 +1,5 @@
 # Sección de importación de módulos
 import pandas as pd
-import geopandas as gpd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
@@ -52,67 +51,28 @@ df = df[coffee_columns + ['address','city','state','latitude','longitude','stars
 condition = (df[coffee_columns] == 1).any(axis=1)
 df = df[condition]
 
-nj = gpd.read_file(url_mapa)
 
-nj_data = gpd.read_file(url_mapa)
+map_center = {"lat": 40.0, "lon": -74.5}
 
-
-if 'NAME' in nj_data.columns:
-    county_names = nj_data['NAME']
-else:
-    col_name = [c for c in nj_data.columns if "NAME" in c]
-    if col_name:
-        county_names = nj_data[col_name[0]].map(lambda x: str(x).replace('NAME:"','').replace('"',''))
-    else:
-        county_names = ["Unknown"] * len(nj_data) 
-
-
-nj = nj.copy() 
-nj["NAME"] = county_names.values
-
-
-nj["centroid"] = nj.geometry.centroid
-
-# === 3. Crear el mapa hexagonal ===
-fig, axs = plt.subplots(figsize=(12, 10), facecolor="white")
-
-hb = axs.hexbin(
-    df_coffee_tea["longitude"],
-    df_coffee_tea["latitude"],
-    gridsize=10,          # tamaño de los hexágonos
-    cmap="CMRmap_r",
-    mincnt=1,             # solo mostrar hexágonos con datos
-    alpha=0.9,
-
+# Crear el mapa interactivo (Plotly hace la agrupación de densidad automáticamente
+# si el número de puntos es grande)
+fig = px.scatter_mapbox(
+    df, # Usamos el DataFrame filtrado
+    lat="latitude",
+    lon="longitude",
+    color="stars", # Podemos usar las estrellas para dar color o agrupar
+    hover_name="address",
+    zoom=7, # Nivel de zoom de NJ
+    height=600,
+    mapbox_style="carto-positron", # Un estilo de mapa limpio
+    title="Mapa de Densidad de Negocios en NJ"
 )
 
-# Contorno del mapa
-nj.boundary.plot(ax=axs, edgecolor="black", linewidth=1.2)
+# Ajustar marcadores para mostrar la densidad visualmente
+fig.update_traces(marker=dict(size=8, opacity=0.8), 
+                  selector=dict(mode='markers'))
 
-# Barra de color
-cb = fig.colorbar(hb, ax=axs)
-cb.set_label("Número de Coffee & Tea Shops")
-
-# === 4. Colocar etiquetas en los centroides ===
-for idx, row in nj.iterrows():
-    # Ensure row["centroid"] is a valid point geometry
-    if row["centroid"] is not None and row["centroid"].is_valid:
-        axs.text(
-            row["centroid"].x,
-            row["centroid"].y,
-            row["NAME"],
-            fontsize=8,
-            color="gray",
-            ha="center",
-            va="center",
-            weight="bold",
-            bbox=dict(facecolor="white", alpha=0.6, edgecolor="none", boxstyle="round,pad=0.2")
-        )
-
-# Ajustes finales
-axs.axis("off")
-axs.set_title("Coffee & Tea Shops in NJ", fontsize=18, weight="bold")
-plt.tight_layout()
-st.pyplot(fig)
+# Mostrar el mapa en Streamlit
+st.plotly_chart(fig, use_container_width=True) 
 
 
