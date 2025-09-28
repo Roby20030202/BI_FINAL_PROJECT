@@ -9,6 +9,7 @@ from Modules.UI.Header import show_header
 from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
 
+git push
 
 # Seción para crear la GUI
 show_header("Mi primera GUI en Streamlit")
