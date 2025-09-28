@@ -1,9 +1,8 @@
+# Prueba a usar versiones estables y comprobadas
 pandas
 streamlit
 matplotlib
-seaborn
-plotly
-shapely
-pyproj
-fiona
-geopandas
+pyproj==3.4.1
+fiona==1.8.21
+shapely==2.0.1
+geopandas==0.13.2
