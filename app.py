@@ -100,3 +100,42 @@ fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
 # Mostrar el mapa en Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
+def categorize(row):
+    if row['Cafes'] > 0:
+        return 'Cafes'
+    elif row['Restaurants']  > 0:
+        return 'Restaurants'
+    elif row['Breakfast & Brunch']  > 0:
+        return 'Breakfast & Brunch'
+    elif row['Bakeries']  > 0:
+        return 'Bakeries'
+    elif row['Desserts']  > 0:
+        return 'Desserts'
+    elif row['Specialty Food']  > 0:
+        return 'Specialty Food'
+    elif row['Convenience Stores']  > 0:
+        return 'Convenience Stores'
+    elif row['Coffee Roasteries']  > 0:
+        return 'Coffee Roasteries'
+    elif row['Food Trucks']  > 0:
+        return 'Food Trucks'
+    elif row['Bars']  > 0:
+        return 'Bars'
+
+    else:
+        return 'Other'
+
+df_specialty_new['Category'] = df_specialty_new.apply(categorize, axis=1)
+
+def category(row):
+    if row['Coffee & Tea'] > 0:
+        return 'Coffee & Tea'
+
+df_specialty_new['Main_Category'] = df_specialty_new.apply(category, axis=1)
+df_specialty_new
+
+
+fig_2 = px.sunburst(df_specialty_new, path=['Main_Category', 'Category', 'stars'])
+
+
+
